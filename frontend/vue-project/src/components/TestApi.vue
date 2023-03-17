@@ -25,7 +25,8 @@ const asigethello = function (){
 
 const asiget = function (){
   axios.get("/api/get/1").then((response)=>{
-    alert("sa")
+    console.log(response);
+    alert(JSON.stringify(response))
   }
   )
 }
