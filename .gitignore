@@ -129,3 +129,4 @@ dist
 # node
 nodeenv-16
 
+backend/finalproject/src/main/resources/application-aws.yaml
