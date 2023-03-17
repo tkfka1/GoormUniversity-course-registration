@@ -1,6 +1,7 @@
 package com.finalproject.controller;
 
 
+import com.finalproject.domain.Data;
 import com.finalproject.request.ApiCreate;
 import com.finalproject.service.GotoDBService;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +20,18 @@ public class ApiController {
     // Http Method
     // Get, POST, PUT, PATCH, DELETE, OPTIONS, HEAD, TRACE, CONNECT
 
-    // GET
-    // db 단건 조회
-    @GetMapping("/get")
-    public void get(@PathVariable(name = "id") Long pid) {
-//        GotoDBService.outDB(pid);
-
-    }
 
     private final GotoDBService gotoDBService;
+
+    // GET
+    // db 단건 조회
+    @GetMapping("/get/{id}")
+    public Data get(@PathVariable(name = "id") Long pid) {
+        Data data = gotoDBService.outDB(pid);
+        System.out.println("get조회");
+        return data;
+    }
+
 
     // POST
     @PostMapping("/post")

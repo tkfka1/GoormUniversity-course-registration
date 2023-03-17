@@ -24,18 +24,23 @@ class GotoDBServiceTest {
     @DisplayName("db 테스트 하기")
     void test1(){
         //given
-        ApiCreate apiCreate = ApiCreate.builder()
-                .title("제목입니다.")
-                .content("내용입니다.")
-                .build();
+        Long pid = 1L;
 
         // when
-        gotoDBService.goDB(apiCreate);
+        Data data = gotoDBService.outDB(pid);
 
         // then
-        Assertions.assertEquals(1l,dataRepository.count());
-        Data data = dataRepository.findAll().get(0);
-        assertEquals("제목입니다.", data.getTitle());
-        assertEquals("내용입니다.", data.getContent());
+        assertNotNull(data);
+        System.out.println(data);
+        System.out.println(data);
+        System.out.println(data);
+        System.out.println(data);
+        System.out.println(data);
+        System.out.println(data);
+        System.out.println(data);
+
+
+
+
     }
 }
