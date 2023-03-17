@@ -10,14 +10,31 @@ import axios from 'axios';
 
 const count = ref(0)
 const eltest = ref("")
+const title = ref("")
+const content = ref("")
+
 const eltestb = function (){
   alert("얼럿 테스트")
   console.log(eltest.value);
   
 }
 
+const asigethello = function (){
+  axios.get("/api/gethello")
+}
+
 const asiget = function (){
-  axios.get("/api/posts")
+  axios.get("/api/get/1").then((response)=>{
+    alert("sa")
+  }
+  )
+}
+
+const asipost = function (){
+  axios.post("/api/post",{
+    title: title.value,
+    content: content.value
+  })
 }
 
 </script>
@@ -56,14 +73,13 @@ const asiget = function (){
 
     axios 사용
     <br>
-    get 요청
-    <el-button type="primary" @click = "asiget">get</el-button>
-    <a href="https://pinia.vuejs.org/" target="_blank" rel="noopener">Pinia</a>,
-    <a href="https://router.vuejs.org/" target="_blank" rel="noopener">Vue Router</a>,
-    <a href="https://test-utils.vuejs.org/" target="_blank" rel="noopener">Vue Test Utils</a>, and
-    <a href="https://github.com/vuejs/devtools" target="_blank" rel="noopener">Vue Dev Tools</a>. If
-    you need more resources, we suggest paying
-    <a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">Awesome Vue</a>
-    a visit.
+    get 요청 (백엔드 print(helloworld))<br>
+    <el-button type="primary" @click = "asigethello">get</el-button><br>
+    get 요청 (데이터 베이스 조회 member title, content)<br>
+    <el-button type="primary" @click = "asiget">get</el-button><br>
+    post 요청 (데이터 베이스에 입력)
+    <el-input v-model="title" type="textarea" rows="1"/>
+    <el-input v-model="content" type="textarea" rows="1"/>
+    <el-button type="primary" @click = "asipost">post</el-button>
   </WelcomeItem>
 </template>

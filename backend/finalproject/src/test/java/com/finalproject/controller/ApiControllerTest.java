@@ -76,7 +76,7 @@ class ApiControllerTest {
     void posttest3() throws Exception {
         // given
         ApiCreate request = ApiCreate.builder()
-                .title("제목입니다.2")
+                .title("제목입니다.dasdas")
                 .content("내용입니다.")
                 .build();
 
