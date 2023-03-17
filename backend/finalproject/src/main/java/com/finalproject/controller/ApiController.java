@@ -6,10 +6,7 @@ import com.finalproject.service.GotoDBService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -23,10 +20,10 @@ public class ApiController {
     // Get, POST, PUT, PATCH, DELETE, OPTIONS, HEAD, TRACE, CONNECT
 
     // GET
+    // db 단건 조회
     @GetMapping("/get")
-    public String get() {
-        System.out.println("Hello world GET 요청!");
-        return "Hello World";
+    public void get(@PathVariable(name = "id") Long pid) {
+//        GotoDBService.outDB(pid);
 
     }
 

@@ -76,8 +76,8 @@ class ApiControllerTest {
     void posttest3() throws Exception {
         // given
         ApiCreate request = ApiCreate.builder()
-                .title("제목입니다.2")
-                .content("내용입니다.")
+                .title("dsa")
+                .content("das")
                 .build();
 
         String json = objectMapper.writeValueAsString(request);

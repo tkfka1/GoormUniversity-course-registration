@@ -13,7 +13,7 @@ public class PostController {
     // 자바스크립트 json-> api
     // SPA vue + SSR  = nuxt 방식
 
-    @GetMapping("/posts")
+    @GetMapping("/gethello")
     public String get() {
         System.out.println("Hello world");
         return "Hello World";
