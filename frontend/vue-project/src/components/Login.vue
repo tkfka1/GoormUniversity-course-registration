@@ -13,6 +13,9 @@ const eltest = ref("")
 const title = ref("")
 const content = ref("")
 
+const loginid = ref("")
+const loginpw = ref("")
+
 const eltestb = function (){
   alert("얼럿 테스트")
   console.log(eltest.value);
@@ -38,6 +41,17 @@ const asipost = function (){
   })
 }
 
+const login = function (){
+  axios.post("/api/login",{
+    loginid: loginid.value,
+    loginpw: loginpw.value
+  }).then((response)=>{
+    console.log(response);
+    alert(JSON.stringify(response))
+  }
+  )
+}
+
 </script>
 
 <template>
@@ -46,10 +60,11 @@ const asipost = function (){
       <DocumentationIcon />
     </template>
     로그인 TEST
-    <el-input v-model="title" type="textarea" rows="1"/>
-    <el-input v-model="content" type="textarea" rows="1"/>
-    <el-button type="primary" @click = "asipost">login</el-button>
+    <el-input v-model="loginid" type="textarea" rows="1"/>
+    <el-input v-model="loginpw" type="textarea" rows="1"/>
+    <el-button type="primary" @click = "login">login</el-button>
   </WelcomeItem>
+
 
   <WelcomeItem>
     <template #icon>

@@ -3,6 +3,7 @@ package com.finalproject.controller;
 
 import com.finalproject.domain.Data;
 import com.finalproject.request.ApiCreate;
+import com.finalproject.request.LoginCreate;
 import com.finalproject.service.GotoDBService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,6 @@ public class ApiController {
     // Http Method
     // Get, POST, PUT, PATCH, DELETE, OPTIONS, HEAD, TRACE, CONNECT
 
-
     private final GotoDBService gotoDBService;
 
     // GET
@@ -32,12 +32,21 @@ public class ApiController {
         return data;
     }
 
-
     // POST
     @PostMapping("/post")
     public void post(@RequestBody @Valid ApiCreate request){
         // db.save(params)
-        gotoDBService.goDB(request);
+        log.info(String.valueOf(request));
+//        gotoDBService.goDB(request);
+    }
+
+
+    // login post 요청
+    @PostMapping("/login")
+    public void login(@RequestBody @Valid LoginCreate request){
+        // db.save(params)
+        log.info(String.valueOf(request));
+
     }
 
 }

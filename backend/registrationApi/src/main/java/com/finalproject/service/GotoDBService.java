@@ -19,7 +19,6 @@ public class GotoDBService {
     private final DataRepository dataRepository;
 
     public void goDB(ApiCreate apiCreate){
-
         Data data = Data.builder()
                 .title(apiCreate.getTitle())
                 .content(apiCreate.getContent())
@@ -33,14 +32,6 @@ public class GotoDBService {
 
         Data data = dataRepository.findById(id)
             .orElseThrow(() ->new IllegalArgumentException("존재하지 않는 글입니다."));
-
-        return data;
-    }
-
-    public Data outDB(Long id){
-
-        Data data = dataRepository.findById(id)
-                .orElseThrow(() ->new IllegalArgumentException("존재하지 않는 글입니다."));
 
         return data;
     }

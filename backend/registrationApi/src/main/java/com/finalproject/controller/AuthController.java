@@ -9,11 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    @PostMapping("/auth/login")
-    public void login(){
-        // json 아이디/ 비밀번호
-        // DB에서 조회
-        // 토큰을 할당
-    
-    }
+    // 자바스크립트 json-> api
+    // SPA vue + SSR  = nuxt 방식
+
 }

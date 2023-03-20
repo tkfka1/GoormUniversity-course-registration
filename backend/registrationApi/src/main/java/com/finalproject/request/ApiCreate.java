@@ -18,4 +18,6 @@ public class ApiCreate {
         this.title = title;
         this.content = content;
     }
+
+
 }
