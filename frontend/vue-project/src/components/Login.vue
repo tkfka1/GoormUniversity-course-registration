@@ -43,8 +43,8 @@ const asipost = function (){
 
 const login = function (){
   axios.post("/api/login",{
-    loginid: loginid.value,
-    loginpw: loginpw.value
+    STUDENT_id: loginid.value,
+    STUDENT_pw: loginpw.value
   }).then((response)=>{
     console.log(response);
     alert(JSON.stringify(response))
