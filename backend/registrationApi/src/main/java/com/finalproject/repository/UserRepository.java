@@ -1,15 +1,14 @@
 package com.finalproject.repository;
 
-import com.finalproject.domain.Student;
+import com.finalproject.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<Student, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
-//        Optional<Student> findByStudent_idAndStudent_pw(String student_id, String student_pw);
-//
-        Optional<Student> findByStudentidAndPw(String studentid, String pw);
+        Optional<User> findByEmailAndPassword(String email, String password);
+        Optional<User> findByEmail(String email);
 
 
 }

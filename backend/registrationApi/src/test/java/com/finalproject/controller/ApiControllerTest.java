@@ -17,7 +17,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @AutoConfigureMockMvc
@@ -41,7 +47,7 @@ class ApiControllerTest {
     void gettest() throws Exception {
         // expacted
         mockMvc.perform(MockMvcRequestBuilders.get("/get"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Hello World"))
                 .andDo(MockMvcResultHandlers.print());
     }
@@ -53,7 +59,7 @@ class ApiControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"title\": \"제목입니다.\", \"content\": \"내용입니다.\"}")
                 ) // application/json
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Hello World"))
                 .andDo(MockMvcResultHandlers.print());
     }
@@ -65,7 +71,7 @@ class ApiControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"title\": \"\", \"content\": \"내용입니다.\"}")
                 ) // application/json
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("400"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("잘못된 요청입니다."))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.validation.title").value("타이틀 값이 입력이 안됨"))
@@ -89,7 +95,7 @@ class ApiControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json)
                 ) // application/json
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
         // then
 //        assertEquals(1L,dataRepository.count());
@@ -97,5 +103,16 @@ class ApiControllerTest {
 //        Data data = dataRepository.findAll().get(0);
 //        assertEquals("제목입니다.", data.getTitle());
 //        assertEquals("내용입니다.", data.getContent());
+    }
+
+
+    @Test
+    @DisplayName("로그인 후 권한있는 페이지 접속 /gologin")
+    void test4() throws Exception {
+        // given
+        mockMvc.perform(get("/gologin")
+                    .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
     }
 }

@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.stereotype.Indexed;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,6 +28,8 @@ public class Student {
     private String grade;
     private String email;
     private String phone;
+
+
 
 
 }
