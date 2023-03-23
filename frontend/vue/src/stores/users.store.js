@@ -18,7 +18,7 @@ export const useUsersStore = defineStore({
         async getAll() {
             this.users = { loading: true };
             try {
-                this.users = await fetchWrapper.get(`/api/posts`);    
+                this.users = await fetchWrapper.get(`/api/user`);  
             } catch (error) {
                 this.users = { error };
             }
@@ -26,13 +26,13 @@ export const useUsersStore = defineStore({
         async getById(id) {
             this.user = { loading: true };
             try {
-                this.user = await fetchWrapper.get(`${baseUrl}/${id}`);
+                this.user = await fetchWrapper.get(`/api/user/${id}`);
             } catch (error) {
                 this.user = { error };
             }
         },
         async update(id, params) {
-            await fetchWrapper.put(`${baseUrl}/${id}`, params);
+            await fetchWrapper.put(`/api/user/${id}`, params);
 
             // update stored user if the logged in user updated their own record
             const authStore = useAuthStore();
@@ -49,7 +49,7 @@ export const useUsersStore = defineStore({
             // add isDeleting prop to user being deleted
             this.users.find(x => x.id === id).isDeleting = true;
 
-            await fetchWrapper.delete(`${baseUrl}/${id}`);
+            await fetchWrapper.delete(`/api/user/${id}`);
 
             // remove user from list after deleted
             this.users = this.users.filter(x => x.id !== id);

@@ -12,27 +12,27 @@ const alertStore = useAlertStore();
 const route = useRoute();
 const id = route.params.id;
 
-let title = 'Add User';
+let title = '학생 추가';
 let user = null;
 if (id) {
     // edit mode
-    title = 'Edit User';
+    title = '정보 수정';
     ({ user } = storeToRefs(usersStore));
     usersStore.getById(id);
 }
 
 const schema = Yup.object().shape({
-    firstName: Yup.string()
-        .required('First Name is required'),
-    lastName: Yup.string()
-        .required('Last Name is required'),
-    username: Yup.string()
-        .required('Username is required'),
+    studentid: Yup.string()
+        .required('학번을 입력하세요'),
+    name: Yup.string()
+        .required('이름을 입력하세요'),
+    email: Yup.string()
+        .required('이메일을 입력하세요'),
     password: Yup.string()
         .transform(x => x === '' ? undefined : x)
         // password optional in edit mode
-        .concat(user ? null : Yup.string().required('Password is required'))
-        .min(6, 'Password must be at least 6 characters')
+        .concat(user ? null : Yup.string().required('비밀번호를 입력하세요'))
+        .min(6, '비밀번호는 최소 6자리 이상이어야 합니다.')
 });
 
 async function onSubmit(values) {
@@ -40,10 +40,10 @@ async function onSubmit(values) {
         let message;
         if (user) {
             await usersStore.update(user.value.id, values)
-            message = 'User updated';
+            message = '학생 정보 업데이트 완료';
         } else {
             await usersStore.register(values);
-            message = 'User added';
+            message = '학생 추가 완료';
         }
         await router.push('/users');
         alertStore.success(message);
@@ -59,26 +59,26 @@ async function onSubmit(values) {
         <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user" v-slot="{ errors, isSubmitting }">
             <div class="form-row">
                 <div class="form-group col">
-                    <label>First Name</label>
-                    <Field name="firstName" type="text" class="form-control" :class="{ 'is-invalid': errors.firstName }" />
-                    <div class="invalid-feedback">{{ errors.firstName }}</div>
+                    <label>학번</label>
+                    <Field name="studentid" type="text" class="form-control" :class="{ 'is-invalid': errors.studentid }" />
+                    <div class="invalid-feedback">{{ errors.studentid }}</div>
                 </div>
                 <div class="form-group col">
-                    <label>Last Name</label>
-                    <Field name="lastName" type="text" class="form-control" :class="{ 'is-invalid': errors.lastName }" />
-                    <div class="invalid-feedback">{{ errors.lastName }}</div>
+                    <label>이름</label>
+                    <Field name="name" type="text" class="form-control" :class="{ 'is-invalid': errors.name }" />
+                    <div class="invalid-feedback">{{ errors.name }}</div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col">
-                    <label>Username</label>
-                    <Field name="username" type="text" class="form-control" :class="{ 'is-invalid': errors.username }" />
-                    <div class="invalid-feedback">{{ errors.username }}</div>
+                    <label>이메일</label>
+                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" />
+                    <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
                 <div class="form-group col">
                     <label>
-                        Password
-                        <em v-if="user">(Leave blank to keep the same password)</em>
+                        비밀번호
+                        <em v-if="user">(비우면 동일한 비밀번호로 유지)</em>
                     </label>
                     <Field name="password" type="password" class="form-control" :class="{ 'is-invalid': errors.password }" />
                     <div class="invalid-feedback">{{ errors.password }}</div>
@@ -87,9 +87,9 @@ async function onSubmit(values) {
             <div class="form-group">
                 <button class="btn btn-primary" :disabled="isSubmitting">
                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-                    Save
+                    저장
                 </button>
-                <router-link to="/users" class="btn btn-link">Cancel</router-link>
+                <router-link to="/users" class="btn btn-link">취소</router-link>
             </div>
         </Form>
     </template>
