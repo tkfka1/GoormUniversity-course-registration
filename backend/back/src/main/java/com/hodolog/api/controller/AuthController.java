@@ -1,9 +1,7 @@
 package com.hodolog.api.controller;
 
 import com.hodolog.api.config.AppConfig;
-import com.hodolog.api.request.Login;
-import com.hodolog.api.request.Signup;
-import com.hodolog.api.request.UserSearch;
+import com.hodolog.api.request.*;
 import com.hodolog.api.response.SessionResponse;
 import com.hodolog.api.response.UserResponse;
 import com.hodolog.api.service.AuthService;
@@ -14,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class AuthController {
                 .setIssuedAt(new Date())
                 .compact();
 
-        return new SessionResponse(jws);
+        return new SessionResponse(jws, userId.intValue());
     }
 
     @PostMapping("/auth/signup")
@@ -56,4 +55,21 @@ public class AuthController {
         return authService.getList(userSearch);
     }
 
+
+    @DeleteMapping("/user/{id}")
+    public void delete(@PathVariable Long id) {
+        authService.delete(id);
+    }
+
+    // 비밀번호 입력 있을 시
+    @PutMapping("/user/{id}")
+    public void edit(@PathVariable Long id, @RequestBody @Valid UserEdit request) {
+        authService.edit(id, request);
+    }
+
+    // 비밀번호 입력 없을 때
+    @PatchMapping("/user/{id}")
+    public void edit2(@PathVariable Long id, @RequestBody @Valid UserEdit request) {
+        authService.edit2(id, request);
+    }
 }

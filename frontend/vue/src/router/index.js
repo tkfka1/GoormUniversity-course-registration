@@ -7,6 +7,7 @@ import usersRoutes from './users.routes';
 // import lectureRoutes from './lecture.routes';
 
 export const router = createRouter({
+
     history: createWebHistory(import.meta.env.BASE_URL),
     linkActiveClass: 'active',
     routes: [
@@ -17,6 +18,7 @@ export const router = createRouter({
         // catch all redirect to home page
         { path: '/:pathMatch(.*)*', redirect: '/' }
     ]
+
 });
 
 router.beforeEach(async (to) => {

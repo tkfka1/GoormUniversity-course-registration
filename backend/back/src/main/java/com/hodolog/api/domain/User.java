@@ -50,4 +50,20 @@ public class User {
         return session;
     }
 
+    public UserEditor.UserEditorBuilder toEditor() {
+        return UserEditor.builder()
+                .studentid(studentid)
+                .name(name)
+                .email(email)
+                .password(password);
+    }
+
+
+    public void edit(UserEditor userEditor) {
+        studentid = userEditor.getStudentid();
+        name = userEditor.getName();
+        email = userEditor.getEmail();
+        password = userEditor.getPassword();
+    }
+
 }

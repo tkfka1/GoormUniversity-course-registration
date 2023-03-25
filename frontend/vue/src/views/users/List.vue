@@ -7,10 +7,11 @@ const usersStore = useUsersStore();
 const { users } = storeToRefs(usersStore);
 
 usersStore.getAll();
+
 </script>
 
 <template>
-    <h1>Users</h1>
+    <h1>학생 목록</h1>
     <router-link to="/users/add" class="btn btn-sm btn-success mb-2">학생 추가</router-link>
     <table class="table table-striped">
         <thead>
@@ -28,10 +29,10 @@ usersStore.getAll();
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td style="white-space: nowrap">
-                        <router-link :to="`/users/edit/${user.id}`" class="btn btn-sm btn-primary mr-1">Edit</router-link>
+                        <router-link :to="`/users/edit/${user.id}`" class="btn btn-sm btn-primary mr-1">수정</router-link>
                         <button @click="usersStore.delete(user.id)" class="btn btn-sm btn-danger btn-delete-user" :disabled="user.isDeleting">
                             <span v-if="user.isDeleting" class="spinner-border spinner-border-sm"></span>
-                            <span v-else>Delete</span>
+                            <span v-else>삭제</span>
                         </button>
                     </td>
                 </tr>

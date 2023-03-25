@@ -47,15 +47,7 @@ public class PostController {
         return postService.getList(postSearch);
     }
 
-    @PatchMapping("/posts/{postId}")
-    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
-        postService.edit(postId, request);
-    }
 
-    @DeleteMapping("/posts/{postId}")
-    public void delete(@PathVariable Long postId) {
-        postService.delete(postId);
-    }
 }
 
 

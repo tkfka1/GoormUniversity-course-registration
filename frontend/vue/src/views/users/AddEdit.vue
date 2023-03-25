@@ -36,10 +36,20 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
+
+    
     try {
         let message;
         if (user) {
-            await usersStore.update(user.value.id, values)
+            if (values.password === undefined){
+                values.password = "123456";
+                await usersStore.updatePatch(user.value.id, values)
+            }
+            else{
+                await usersStore.update(user.value.id, values)
+            }
+            console.log(values)
+            
             message = '학생 정보 업데이트 완료';
         } else {
             await usersStore.register(values);

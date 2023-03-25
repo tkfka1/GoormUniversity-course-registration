@@ -1,14 +1,15 @@
 package com.hodolog.api.service;
 
 import com.hodolog.api.crypto.PasswordEncoder;
+import com.hodolog.api.domain.Post;
+import com.hodolog.api.domain.PostEditor;
 import com.hodolog.api.domain.User;
+import com.hodolog.api.domain.UserEditor;
 import com.hodolog.api.exception.AlreadyExistsEmailException;
 import com.hodolog.api.exception.InvalidSigninInformation;
 import com.hodolog.api.exception.UserNotFound;
 import com.hodolog.api.repository.UserRepository;
-import com.hodolog.api.request.Login;
-import com.hodolog.api.request.Signup;
-import com.hodolog.api.request.UserSearch;
+import com.hodolog.api.request.*;
 import com.hodolog.api.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,4 +75,53 @@ public class AuthService {
                 .map(UserResponse::new)
                 .collect(Collectors.toList());
     }
+    
+    // 비밀번호 있을 시
+    @Transactional
+    public void edit(Long id, UserEdit userEdit) {
+        User user = userRepository.findById(id)
+                .orElseThrow(UserNotFound::new);
+
+        UserEditor.UserEditorBuilder editorBuilder = user.toEditor();
+
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encryptedPassword = encoder.encrpyt(userEdit.getPassword());
+
+        UserEditor userEditor = editorBuilder
+                .name(userEdit.getName())
+                .studentid(userEdit.getStudentid())
+                .email(userEdit.getEmail())
+                .password(encryptedPassword)
+                .build();
+
+        user.edit(userEditor);
+    }
+    
+    // 비밀번호 없을 시
+    @Transactional
+    public void edit2(Long id, UserEdit userEdit) {
+        User user = userRepository.findById(id)
+                .orElseThrow(UserNotFound::new);
+
+        UserEditor.UserEditorBuilder editorBuilder = user.toEditor();
+
+        UserEditor userEditor = editorBuilder
+                .name(userEdit.getName())
+                .studentid(userEdit.getStudentid())
+                .email(userEdit.getEmail())
+                .build();
+
+        user.edit(userEditor);
+    }
+
+    public void delete(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(UserNotFound::new);
+
+        userRepository.delete(user);
+    }
+
+
+
+
 }

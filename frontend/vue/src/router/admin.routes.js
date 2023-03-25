@@ -1,9 +1,8 @@
-import { Layout, List, AddEdit } from '@/views/users';
+import { Layout, List, AddEdit } from '@/views/admin';
 
 export default {
-    path: '/users',
+    path: '/admin',
     component: Layout,
-    meta: { authorization: ["admin"] },
     children: [
         { path: '', component: List },
         { path: 'add', component: AddEdit },

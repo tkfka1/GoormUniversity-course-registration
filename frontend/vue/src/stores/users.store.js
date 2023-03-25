@@ -45,6 +45,20 @@ export const useUsersStore = defineStore({
                 authStore.user = user;
             }
         },
+        async updatePatch(id, params) {
+            await fetchWrapper.patch(`/api/user/${id}`, params);
+
+            // update stored user if the logged in user updated their own record
+            const authStore = useAuthStore();
+            if (id === authStore.user.id) {
+                // update local storage
+                const user = { ...authStore.user, ...params };
+                localStorage.setItem('user', JSON.stringify(user));
+
+                // update auth user in pinia state
+                authStore.user = user;
+            }
+        },
         async delete(id) {
             // add isDeleting prop to user being deleted
             this.users.find(x => x.id === id).isDeleting = true;
