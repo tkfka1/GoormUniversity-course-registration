@@ -14,8 +14,6 @@ const name = ref("이름");
 const studentid = ref("학번");
 const email = ref("메일");
 
-
-
 fetchWrapper.get(`/api/user/${user._object.user.id}`).then((res) => {
     console.log(res);
     name.value = res.name;
@@ -23,6 +21,22 @@ fetchWrapper.get(`/api/user/${user._object.user.id}`).then((res) => {
     email.value = res.email;
 
 });
+
+
+// const {test} = user._object.user.id
+
+
+
+
+// const test = fetchWrapper.get(`/api/user/${user._object.user.id}`)
+// test.then((res) => {
+
+//     email = res.email;
+//     studentid = res.studentid;
+// });
+
+
+
 
 </script>
 
