@@ -19,6 +19,7 @@ if (id) {
     title = '정보 수정';
     ({ user } = storeToRefs(usersStore));
     usersStore.getById(id);
+    
 }
 
 const schema = Yup.object().shape({
@@ -40,7 +41,6 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
-    console.log("as")
     try {
         let message;
         if (user) {
@@ -95,14 +95,14 @@ async function onSubmit(values) {
                     <label>
                         전공
                     </label>
-                    <Field name="majorId" type="text" class="form-control" :class="{ 'is-invalid': errors.majorId }" />
+                    <Field name="majorId" type="number" class="form-control" :class="{ 'is-invalid': errors.majorId }" />
                     <div class="invalid-feedback">{{ errors.majorId }}</div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col">
                     <label>수강가능학점</label>
-                    <Field name="credit" type="text" class="form-control" :class="{ 'is-invalid': errors.credit }" />
+                    <Field name="credit" type="number" class="form-control" :class="{ 'is-invalid': errors.credit }" />
                     <div class="invalid-feedback">{{ errors.credit }}</div>
                 </div>
                 <div class="form-group col">

@@ -11,7 +11,6 @@ public class UserEditor {
     private final String password;
 
     private final String email;
-
     private final Long majorId;
     private final Long credit;
 

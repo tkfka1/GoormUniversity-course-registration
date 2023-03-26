@@ -2,10 +2,8 @@ package com.spring.api.controller;
 
 import com.spring.api.config.AppConfigUser;
 import com.spring.api.request.*;
-import com.spring.api.response.AdminResponse;
 import com.spring.api.response.SessionResponse;
 import com.spring.api.response.UserResponse;
-import com.spring.api.service.AdminService;
 import com.spring.api.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -23,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    // admin 로그인, 회원가입, 하는 컨트롤러
+    // 학생 로그인, 회원가입, 하는 컨트롤러
 
 
     private final UserService userService;

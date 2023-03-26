@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
@@ -14,16 +15,15 @@ public class UserEdit {
 
     @NotBlank(message = "교원번호를 입력하세요.")
     private String studentId;
-
     @NotBlank(message = "이름을 입력해주세요.")
     private String name;
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
     @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
-    @NotBlank(message = "수강학점을 입력해주세요.")
+    @NotNull(message = "수강학점을 입력해주세요.")
     private Long credit;
-    @NotBlank(message = "전공을 입력해주세요.")
+    @NotNull(message = "전공을 입력해주세요.")
     private Long majorId;
 
     @Builder

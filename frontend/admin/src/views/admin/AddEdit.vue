@@ -23,7 +23,7 @@ if (id) {
 
 const schema = Yup.object().shape({
     adminId: Yup.string()
-        .required('학번을 입력하세요'),
+        .required('교직원번호를 입력하세요'),
     name: Yup.string()
         .required('이름을 입력하세요'),
     password: Yup.string()
@@ -34,8 +34,6 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
-
-    
     try {
         let message;
         if (user) {
@@ -46,7 +44,6 @@ async function onSubmit(values) {
             else{
                 await adminStore.update(user.value.id, values)
             }
-            console.log(values)
             
             message = '교직원 정보 업데이트 완료';
         } else {

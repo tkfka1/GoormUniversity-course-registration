@@ -1,17 +1,13 @@
 package com.spring.api.service;
 
 import com.spring.api.crypto.PasswordEncoder;
-import com.spring.api.domain.Admin;
-import com.spring.api.domain.AdminEditor;
 import com.spring.api.domain.User;
 import com.spring.api.domain.UserEditor;
 import com.spring.api.exception.AlreadyExistsEmailException;
 import com.spring.api.exception.InvalidSigninInformation;
 import com.spring.api.exception.UserNotFound;
-import com.spring.api.repository.AdminRepository;
 import com.spring.api.repository.UserRepository;
 import com.spring.api.request.*;
-import com.spring.api.response.AdminResponse;
 import com.spring.api.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -71,6 +67,7 @@ public class UserService {
                 .orElseThrow(UserNotFound::new);
 
         return UserResponse.builder()
+                .id(user.getId())
                 .studentId(user.getStudentId())
                 .email(user.getEmail())
                 .name(user.getName())
@@ -106,8 +103,6 @@ public class UserService {
                 .email(userEdit.getEmail())
                 .build();
 
-
-
         user.edit(userEditor);
     }
 
@@ -116,6 +111,8 @@ public class UserService {
     public void edit2(Long id, UserEdit userEdit) {
         User user = userRepository.findById(id)
                 .orElseThrow(UserNotFound::new);
+
+        System.out.println("sd");
 
         UserEditor.UserEditorBuilder editorBuilder = user.toEditor();
 

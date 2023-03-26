@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { useAuthStore } from '@/stores';
 
 const schema = Yup.object().shape({
-    adminId: Yup.string().required('학번을 입력하세요'),
+    adminId: Yup.string().required('교원번호를 입력하세요'),
     password: Yup.string().required('비밀번호를 입력하세요')
 });
 
