@@ -11,32 +11,14 @@ console.log(user._object.user.id)
 
 
 const name = ref("이름");
-const studentid = ref("학번");
-const email = ref("메일");
+const adminId = ref("학번");
 
-fetchWrapper.get(`/api/user/${user._object.user.id}`).then((res) => {
+fetchWrapper.get(`/api/admin/auth/${user._object.user.id}`).then((res) => {
     console.log(res);
     name.value = res.name;
-    studentid.value = res.studentid;
-    email.value = res.email;
+    adminId.value = res.adminId;
 
 });
-
-
-// const {test} = user._object.user.id
-
-
-
-
-// const test = fetchWrapper.get(`/api/user/${user._object.user.id}`)
-// test.then((res) => {
-
-//     email = res.email;
-//     studentid = res.studentid;
-// });
-
-
-
 
 </script>
 
@@ -46,9 +28,8 @@ fetchWrapper.get(`/api/user/${user._object.user.id}`).then((res) => {
         <p>구름대학 수강신청에 오신것을 환영합니다.</p>
         <p><router-link to="/users">test1</router-link></p>
 
-        <td>{{ studentid }}</td>
+        <td>{{ adminId }}</td>
                     <td>{{ name }}</td>
-                    <td>{{ email }}</td>
 
                     <p>dsa</p>    
 

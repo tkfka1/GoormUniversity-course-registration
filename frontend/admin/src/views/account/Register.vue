@@ -6,12 +6,10 @@ import { useUsersStore, useAlertStore } from '@/stores';
 import { router } from '@/router';
 
 const schema = Yup.object().shape({
-    studentid: Yup.string()
-        .required('학번을 입력하세요'),
+    adminId: Yup.string()
+        .required('교원번호를 입력하세요'),
     name: Yup.string()
         .required('이름을 입력하세요'),
-    email: Yup.string()
-        .required('이메일을 입력하세요'),
     password: Yup.string()
         .required('비밀번호를 입력하세요')
         .min(6, '비밀번호는 최소 6자리 이상이어야 합니다.')
@@ -36,19 +34,14 @@ async function onSubmit(values) {
         <div class="card-body">
             <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
                 <div class="form-group">
-                    <label>학번</label>
-                    <Field name="studentid" type="text" class="form-control" :class="{ 'is-invalid': errors.studentid }" />
-                    <div class="invalid-feedback">{{ errors.studentid }}</div>
+                    <label>교원번호</label>
+                    <Field name="adminId" type="text" class="form-control" :class="{ 'is-invalid': errors.adminId }" />
+                    <div class="invalid-feedback">{{ errors.adminId }}</div>
                 </div>
                 <div class="form-group">
                     <label>이름</label>
                     <Field name="name" type="text" class="form-control" :class="{ 'is-invalid': errors.name }" />
                     <div class="invalid-feedback">{{ errors.name }}</div>
-                </div>
-                <div class="form-group">
-                    <label>이메일</label>
-                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" />
-                    <div class="invalid-feedback">{{ errors.email }}</div>
                 </div>
                 <div class="form-group">
                     <label>비밀번호</label>

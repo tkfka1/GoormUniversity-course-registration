@@ -4,34 +4,28 @@ import * as Yup from 'yup';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import { useUsersStore, useAlertStore } from '@/stores';
+import { useAdminStore, useAlertStore } from '@/stores';
 import { router } from '@/router';
 
-const usersStore = useUsersStore();
+const adminStore = useAdminStore();
 const alertStore = useAlertStore();
 const route = useRoute();
 const id = route.params.id;
 
-let title = '학생 추가';
+let title = '교직원 추가';
 let user = null;
 if (id) {
     // edit mode
     title = '정보 수정';
-    ({ user } = storeToRefs(usersStore));
-    usersStore.getById(id);
+    ({ user } = storeToRefs(adminStore));
+    adminStore.getById(id);
 }
 
 const schema = Yup.object().shape({
-    studentId: Yup.string()
+    adminId: Yup.string()
         .required('학번을 입력하세요'),
     name: Yup.string()
         .required('이름을 입력하세요'),
-    email: Yup.string()
-        .required('이메일을 입력하세요'),
-    majorId: Yup.string()
-        .required('전공을 입력하세요'),
-    credit: Yup.string()
-        .required('수강가능학점을 입력하세요'),
     password: Yup.string()
         .transform(x => x === '' ? undefined : x)
         // password optional in edit mode
@@ -40,25 +34,26 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
-    console.log("as")
+
+    
     try {
         let message;
         if (user) {
             if (values.password === undefined){
                 values.password = "123456";
-                await usersStore.updatePatch(user.value.id, values)
+                await adminStore.updatePatch(user.value.id, values)
             }
             else{
-                await usersStore.update(user.value.id, values)
+                await adminStore.update(user.value.id, values)
             }
             console.log(values)
             
-            message = '학생 정보 업데이트 완료';
+            message = '교직원 정보 업데이트 완료';
         } else {
-            await usersStore.register(values);
-            message = '학생 추가 완료';
+            await adminStore.register(values);
+            message = '교직원 추가 완료';
         }
-        await router.push('/users');
+        await router.push('/admin');
         alertStore.success(message);
     } catch (error) {
         alertStore.error(error);
@@ -72,9 +67,9 @@ async function onSubmit(values) {
         <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user" v-slot="{ errors, isSubmitting }">
             <div class="form-row">
                 <div class="form-group col">
-                    <label>학번</label>
-                    <Field name="studentId" type="text" class="form-control" :class="{ 'is-invalid': errors.studentId }" />
-                    <div class="invalid-feedback">{{ errors.studentId }}</div>
+                    <label>교직원번호</label>
+                    <Field name="adminId" type="text" class="form-control" :class="{ 'is-invalid': errors.adminId }" />
+                    <div class="invalid-feedback">{{ errors.adminId }}</div>
                 </div>
                 <div class="form-group col">
                     <label>이름</label>
@@ -91,34 +86,13 @@ async function onSubmit(values) {
                     <Field name="password" type="password" class="form-control" :class="{ 'is-invalid': errors.password }" />
                     <div class="invalid-feedback">{{ errors.password }}</div>
                 </div>
-                <div class="form-group col">
-                    <label>
-                        전공
-                    </label>
-                    <Field name="majorId" type="text" class="form-control" :class="{ 'is-invalid': errors.majorId }" />
-                    <div class="invalid-feedback">{{ errors.majorId }}</div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col">
-                    <label>수강가능학점</label>
-                    <Field name="credit" type="text" class="form-control" :class="{ 'is-invalid': errors.credit }" />
-                    <div class="invalid-feedback">{{ errors.credit }}</div>
-                </div>
-                <div class="form-group col">
-                    <label>
-                        이메일
-                    </label>
-                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" />
-                    <div class="invalid-feedback">{{ errors.email }}</div>
-                </div>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" :disabled="isSubmitting">
                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
                     저장
                 </button>
-                <router-link to="/users" class="btn btn-link">취소</router-link>
+                <router-link to="/admin" class="btn btn-link">취소</router-link>
             </div>
         </Form>
     </template>

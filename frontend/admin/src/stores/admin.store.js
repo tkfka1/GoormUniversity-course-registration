@@ -3,36 +3,34 @@ import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers';
 import { useAuthStore } from '@/stores';
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
-
-export const useUsersStore = defineStore({
-    id: 'users',
+export const useAdminStore = defineStore({
+    id: 'admin',
     state: () => ({
-        users: {},
+        admin: {},
         user: {}
     }),
     actions: {
         async register(user) {
-            await fetchWrapper.post(`/api/user/auth/signup`, user);
+            await fetchWrapper.post(`/api/admin/auth/signup`, user);
         },
         async getAll() {
-            this.users = { loading: true };
+            this.admin = { loading: true };
             try {
-                this.users = await fetchWrapper.get(`/api/user/auth`);  
+                this.admin = await fetchWrapper.get(`/api/admin/auth`);  
             } catch (error) {
-                this.users = { error };
+                this.admin = { error };
             }
         },
         async getById(id) {
             this.user = { loading: true };
             try {
-                this.user = await fetchWrapper.get(`/api/user/auth/${id}`);
+                this.user = await fetchWrapper.get(`/api/admin/auth/${id}`);
             } catch (error) {
                 this.user = { error };
             }
         },
         async update(id, params) {
-            await fetchWrapper.put(`/api/user/auth/${id}`, params);
+            await fetchWrapper.put(`/api/admin/auth/${id}`, params);
 
             // update stored user if the logged in user updated their own record
             const authStore = useAuthStore();
@@ -46,7 +44,7 @@ export const useUsersStore = defineStore({
             }
         },
         async updatePatch(id, params) {
-            await fetchWrapper.patch(`/api/user/auth/${id}`, params);
+            await fetchWrapper.patch(`/api/admin/auth/${id}`, params);
 
             // update stored user if the logged in user updated their own record
             const authStore = useAuthStore();
@@ -61,12 +59,12 @@ export const useUsersStore = defineStore({
         },
         async delete(id) {
             // add isDeleting prop to user being deleted
-            this.users.find(x => x.id === id).isDeleting = true;
+            this.admin.find(x => x.id === id).isDeleting = true;
 
-            await fetchWrapper.delete(`/api/user/auth/${id}`);
+            await fetchWrapper.delete(`/api/admin/auth/${id}`);
 
             // remove user from list after deleted
-            this.users = this.users.filter(x => x.id !== id);
+            this.admin = this.admin.filter(x => x.id !== id);
 
             // auto logout if the logged in user deleted their own record
             const authStore = useAuthStore();

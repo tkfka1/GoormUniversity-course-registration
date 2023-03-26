@@ -5,26 +5,26 @@ import * as Yup from 'yup';
 import { useAuthStore } from '@/stores';
 
 const schema = Yup.object().shape({
-    studentid: Yup.string().required('학번을 입력하세요'),
+    adminId: Yup.string().required('학번을 입력하세요'),
     password: Yup.string().required('비밀번호를 입력하세요')
 });
 
 async function onSubmit(values) {
     const authStore = useAuthStore();
-    const { studentid, password } = values;
-    await authStore.login(studentid, password);
+    const { adminId, password } = values;
+    await authStore.login(adminId, password);
 }
 </script>
 
 <template>
     <div class="card m-3">
-        <h4 class="card-header">구름대학교 수강신청 시스템</h4>
+        <h4 class="card-header">구름대학교 수강신청 시스템(admin)</h4>
         <div class="card-body">
             <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
                 <div class="form-group">
-                    <label>학번</label>
-                    <Field name="studentid" type="text" class="form-control" :class="{ 'is-invalid': errors.studentid }" />
-                    <div class="invalid-feedback">{{ errors.studentid }}</div>
+                    <label>교원번호</label>
+                    <Field name="adminId" type="text" class="form-control" :class="{ 'is-invalid': errors.adminId }" />
+                    <div class="invalid-feedback">{{ errors.adminId }}</div>
                 </div>
                 <div class="form-group">
                     <label>비밀번호</label>

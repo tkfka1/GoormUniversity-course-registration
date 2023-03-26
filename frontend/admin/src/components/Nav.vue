@@ -8,6 +8,7 @@ const authStore = useAuthStore();
     <nav v-show="authStore.user" class="navbar navbar-expand navbar-dark bg-dark">
         <div class="navbar-nav">
             <router-link to="/" class="nav-item nav-link">홈</router-link>
+            <router-link to="/admin" class="nav-item nav-link">교직원</router-link>
             <router-link to="/users" class="nav-item nav-link">Users</router-link>
             <!-- <router-link to="/lecture" class="nav-item nav-link">강의목록</router-link> -->
             <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">Logout</button>
