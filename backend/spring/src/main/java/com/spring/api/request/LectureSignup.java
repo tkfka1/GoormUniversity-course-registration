@@ -6,12 +6,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserSignup {
-
-    private String studentId;
+public class LectureSignup {
     private String name;
-    private String password;
-    private String email;
-    private Long credit;
     private Major major;
+    private Long credit;
+
 }
+

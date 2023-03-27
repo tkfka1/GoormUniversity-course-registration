@@ -3,34 +3,34 @@ import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers';
 import { useAuthStore } from '@/stores';
 
-export const useMajorStore = defineStore({
-    id: 'major',
+export const useLectureStore = defineStore({
+    id: 'lecture',
     state: () => ({
-        major: {},
+        lecture: {},
         user: {}
     }),
     actions: {
         async register(user) {
-            await fetchWrapper.post(`/api/major/auth/signup`, user);
+            await fetchWrapper.post(`/api/lecture/auth/signup`, user);
         },
         async getAll() {
-            this.major = { loading: true };
+            this.lecture = { loading: true };
             try {
-                this.major = await fetchWrapper.get(`/api/major/auth`);  
+                this.lecture = await fetchWrapper.get(`/api/lecture/auth`);  
             } catch (error) {
-                this.major = { error };
+                this.lecture = { error };
             }
         },
         async getById(id) {
             this.user = { loading: true };
             try {
-                this.user = await fetchWrapper.get(`/api/major/auth/${id}`);
+                this.user = await fetchWrapper.get(`/api/lecture/auth/${id}`);
             } catch (error) {
                 this.user = { error };
             }
         },
         async update(id, params) {
-            await fetchWrapper.put(`/api/major/auth/${id}`, params);
+            await fetchWrapper.put(`/api/lecture/auth/${id}`, params);
 
             // update stored user if the logged in user updated their own record
             const authStore = useAuthStore();
@@ -44,7 +44,7 @@ export const useMajorStore = defineStore({
             }
         },
         async updatePatch(id, params) {
-            await fetchWrapper.patch(`/api/major/auth/${id}`, params);
+            await fetchWrapper.patch(`/api/lecture/auth/${id}`, params);
 
             // update stored user if the logged in user updated their own record
             const authStore = useAuthStore();
@@ -59,12 +59,12 @@ export const useMajorStore = defineStore({
         },
         async delete(id) {
             // add isDeleting prop to user being deleted
-            this.major.find(x => x.id === id).isDeleting = true;
+            this.lecture.find(x => x.id === id).isDeleting = true;
 
-            await fetchWrapper.delete(`/api/major/auth/${id}`);
+            await fetchWrapper.delete(`/api/lecture/auth/${id}`);
 
             // remove user from list after deleted
-            this.major = this.major.filter(x => x.id !== id);
+            this.lecture = this.lecture.filter(x => x.id !== id);
 
             // auto logout if the logged in user deleted their own record
             const authStore = useAuthStore();

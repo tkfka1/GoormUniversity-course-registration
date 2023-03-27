@@ -46,8 +46,8 @@ public class AdminService {
 
     // 회원가입
     public void signup(AdminSignup adminSignup) {
-        Optional<Admin> userOptional = adminRepository.findByAdminId(adminSignup.getAdminId());
-        if (userOptional.isPresent()) {
+        Optional<Admin> adminOptional = adminRepository.findByAdminId(adminSignup.getAdminId());
+        if (adminOptional.isPresent()) {
             throw new AlreadyExistsEmailException();
         }
 

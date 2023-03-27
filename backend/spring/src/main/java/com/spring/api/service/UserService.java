@@ -56,7 +56,7 @@ public class UserService {
                 .password(encryptedPassword)
                 .name(userSignup.getName())
                 .credit(userSignup.getCredit())
-                .majorId(userSignup.getMajorId())
+                .major(userSignup.getMajor())
                 .build();
         userRepository.save(user);
     }
@@ -72,7 +72,7 @@ public class UserService {
                 .email(user.getEmail())
                 .name(user.getName())
                 .credit(user.getCredit())
-                .majorId(user.getMajorId())
+                .major(user.getMajor())
                 .build();
     }
     // 학생 정보 조회 리스트
@@ -99,7 +99,7 @@ public class UserService {
                 .studentId(userEdit.getStudentId())
                 .password(encryptedPassword)
                 .credit(userEdit.getCredit())
-                .majorId(userEdit.getMajorId())
+                .major(userEdit.getMajor())
                 .email(userEdit.getEmail())
                 .build();
 
@@ -112,15 +112,13 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(UserNotFound::new);
 
-        System.out.println("sd");
-
         UserEditor.UserEditorBuilder editorBuilder = user.toEditor();
 
         UserEditor userEditor = editorBuilder
                 .name(userEdit.getName())
                 .studentId(userEdit.getStudentId())
                 .credit(userEdit.getCredit())
-                .majorId(userEdit.getMajorId())
+                .major(userEdit.getMajor())
                 .email(userEdit.getEmail())
                 .build();
 

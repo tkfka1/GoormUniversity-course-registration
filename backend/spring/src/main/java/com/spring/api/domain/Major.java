@@ -41,10 +41,22 @@ public class Major {
     }
 
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "major")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "major")
+    @JsonIgnoreProperties({"major"})
+    private List<Lecture> sessions1 = new ArrayList<>();
+
+    public Lecture addLecture() {
+        Lecture lecture = Lecture.builder()
+                .major(this)
+                .build();
+        sessions1.add(lecture);
+
+        return lecture;
+    }
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "major")
     @JsonIgnoreProperties({"major"})
     private List<Professor> sessions2 = new ArrayList<>();
-
 
     public Professor addProfessor() {
         Professor professor = Professor.builder()
@@ -53,6 +65,19 @@ public class Major {
         sessions2.add(professor);
 
         return professor;
+    }
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "major")
+    @JsonIgnoreProperties({"major"})
+    private List<User> sessions3 = new ArrayList<>();
+
+    public User addUser() {
+        User user = User.builder()
+                .major(this)
+                .build();
+        sessions3.add(user);
+
+        return user;
     }
 
 }

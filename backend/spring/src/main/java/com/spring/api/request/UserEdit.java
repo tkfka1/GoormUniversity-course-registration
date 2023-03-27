@@ -1,5 +1,6 @@
 package com.spring.api.request;
 
+import com.spring.api.domain.Major;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,16 +25,16 @@ public class UserEdit {
     @NotNull(message = "수강학점을 입력해주세요.")
     private Long credit;
     @NotNull(message = "전공을 입력해주세요.")
-    private Long majorId;
+    private Major major;
 
     @Builder
-    public UserEdit(String studentId, String name, String password, String email, Long credit, Long majorId) {
+    public UserEdit(String studentId, String name, String password, String email, Long credit, Major major) {
         this.studentId = studentId;
         this.name = name;
         this.password = password;
         this.email = email;
         this.credit = credit;
-        this.majorId = majorId;
+        this.major = major;
     }
 
 

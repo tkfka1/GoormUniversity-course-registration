@@ -27,21 +27,21 @@ public class User {
     private String email;
     @Column(name = "user_password")
     private String password;
-    @Column(name = "major_id")
-    private Long majorId;
     @Column(name = "user_credit")
     private Long credit;
     @Column(name = "user_created_date")
     private LocalDateTime createdDate;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Major major;
 
     @Builder
-    public User(String studentId, String name, String email, String password, Long majorId, Long credit) {
+    public User(String studentId, String name, String email, String password, Long credit, Major major) {
         this.studentId = studentId;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.majorId = majorId;
         this.credit = credit;
+        this.major = major;
         this.createdDate = LocalDateTime.now();
     }
 
@@ -64,7 +64,7 @@ public class User {
                 .name(name)
                 .email(email)
                 .password(password)
-                .majorId(majorId)
+                .major(major)
                 .credit(credit);
     }
 
@@ -73,7 +73,7 @@ public class User {
         name = userEditor.getName();
         email = userEditor.getEmail();
         password = userEditor.getPassword();
-        majorId = userEditor.getMajorId();
+        major = userEditor.getMajor();
         credit = userEditor.getCredit();
 
 

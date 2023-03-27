@@ -2,24 +2,12 @@
 import { storeToRefs } from 'pinia';
 
 import { useUsersStore } from '@/stores';
-import { useMajorStore } from '@/stores';
 
 
 const usersStore = useUsersStore();
 const { users } = storeToRefs(usersStore);
 
 usersStore.getAll();
-
-const majorStore = useMajorStore();
-const { major } = storeToRefs(majorStore);
-
-majorStore.getAll();
-
-var dictMajor = {}
-
-function majorInDict(id,name){
-    dictMajor[id] = name;
-}
 
 
 console.log("listuser");
@@ -33,9 +21,7 @@ console.log("listuser");
 </script>
 
 <template>
-<tr v-for="maj in major" :key="maj.id">
-    {{ majorInDict(maj.id,maj.name) }}
-</tr>
+
 
 
     <h1>학생 목록</h1>
@@ -56,7 +42,7 @@ console.log("listuser");
                 <tr v-for="user in users" :key="user.id">
                     <td>{{ user.studentId }}</td>
                     <td>{{ user.name }}</td>
-                    <td>{{ dictMajor[user.majorId] }}</td>
+                    <td>{{ user.major.name  }}</td>
                     <td>{{ user.credit }}</td>
                     <td>{{ user.email }}</td>
                     <td style="white-space: nowrap">

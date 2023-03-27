@@ -12,6 +12,7 @@ const alertStore = useAlertStore();
 const majorStore = useMajorStore();
 
 const { major } = storeToRefs(majorStore);
+
 majorStore.getAll();
 
 const route = useRoute();
@@ -35,16 +36,18 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
-    values.major.id = String(document.getElementById("major.id").value);
+    if (document.getElementById("major.id").value){
+        values.major.id = String(document.getElementById("major.id").value);
+    }
     try {
         let message;
         if (user) {
             await professorStore.update(user.value.id, values)
             console.log(values)
-            message = '전공 정보 업데이트 완료';
+            message = '교수 정보 업데이트 완료';
         } else {
             await professorStore.register(values);
-            message = '전공 추가 완료';
+            message = '교수 추가 완료';
         }
         await router.push('/professor');
         alertStore.success(message);
@@ -87,7 +90,7 @@ export default {
                 <div class="form-group col">
                     <label>전공명</label>
                     <br>
-                    <select id="major.id" v-model="majorSelected">
+                    <select id="major.id" v-model="majorSelected" class="form-control">
                         <option v-if="user" value="" disabled hidden> {{ user.major.name }} </option>
                     <option
                         v-for="item in major"

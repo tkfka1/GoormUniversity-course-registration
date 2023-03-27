@@ -2,7 +2,7 @@
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
 
-import { useUsersStore, useAlertStore } from '@/stores';
+import { useAdminStore, useAlertStore } from '@/stores';
 import { router } from '@/router';
 
 const schema = Yup.object().shape({
@@ -16,10 +16,10 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
-    const usersStore = useUsersStore();
+    const adminStore = useAdminStore();
     const alertStore = useAlertStore();
     try {
-        await usersStore.register(values);
+        await adminStore.register(values);
         await router.push('/account/login');
         alertStore.success('가입이 성공적으로 완료되었습니다.');
     } catch (error) { 

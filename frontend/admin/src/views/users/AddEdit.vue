@@ -10,18 +10,13 @@ import { router } from '@/router';
 const usersStore = useUsersStore();
 const alertStore = useAlertStore();
 const majorStore = useMajorStore();
+
 const route = useRoute();
 const id = route.params.id;
 
 const { major } = storeToRefs(majorStore);
 
 majorStore.getAll();
-
-var dictMajor = {}
-
-function majorInDict(id,name){
-    dictMajor[id] = name;
-}
 
 let title = '학생 추가';
 let user = null;
@@ -40,25 +35,19 @@ const schema = Yup.object().shape({
         .required('이름을 입력하세요'),
     email: Yup.string()
         .required('이메일을 입력하세요'),
-    majorId: Yup.string(),
     credit: Yup.string()
         .required('수강가능학점을 입력하세요'),
     password: Yup.string()
         .transform(x => x === '' ? undefined : x)
         // password optional in edit mode
         .concat(user ? null : Yup.string().required('비밀번호를 입력하세요'))
-        .min(6, '비밀번호는 최소 6자리 이상이어야 합니다.')
+        .min(6, '비밀번호는 최소 6자리 이상이어야 합니다.'),
 });
 
 async function onSubmit(values) {
-    var select = document.getElementById("majorSelect");
-    if (select.value){
-        values.majorId = select.value
+    if (document.getElementById("major.id").value){
+        values.major.id = String(document.getElementById("major.id").value);
     }
-    else{
-        values.majorId = document.getElementById("majorId").value;
-    }
-
     try {
         let message;
         if (user) {
@@ -82,19 +71,6 @@ async function onSubmit(values) {
         alertStore.error(error);
     }
 }
-
-// 안됨 고장 vue에서는 안됨
-// function initCombobox(){
-//     var select = document.getElementById("majorId").value;
-//     for (var i = 0; i < document.getElementById('majorSelect').length; i++) {
-//         if (document.getElementById('majorSelect').options[i].value == select) {
-//             document.getElementById('majorSelect').options[i].selected = true;
-//             break;
-//         }
-//     }
-// }
-
-
 </script>
 
 
@@ -118,10 +94,6 @@ export default {
 
 
 <template>
-<tr v-for="maj in major" :key="maj.id">
-{{ majorInDict(maj.id,maj.name) }}
-</tr>
-
 
     <h1>{{title}}</h1>
     <template v-if="!(user?.loading || user?.error)">
@@ -148,16 +120,14 @@ export default {
                     <div class="invalid-feedback">{{ errors.password }}</div>
                 </div>
                 <div class="form-group col">
-                    <label>
-                        전공
-                        <em v-if="user">(비우면 동일한 전공으로 유지)</em>
-                        
-                    </label><tr></tr>
-                    <select id="majorSelect" v-model="majorSelected">
+                    <label>전공명</label>
+                    <br>
+                    <select id="major.id" v-model="majorSelected" class="form-control">
+                        <option v-if="user" value="" disabled hidden> {{ user.major.name }} </option>
                     <option
                         v-for="item in major"
                         :key="item.name"
-                        :value="item.id" selected>
+                        :value="item.id">
                         {{ item.name }}
                     </option>
                     </select>
@@ -184,7 +154,7 @@ export default {
                 </button>
                 <router-link to="/users" class="btn btn-link">취소</router-link>
             </div>
-            <Field id="majorId" name="majorId" type="text" class="form-control" style="visibility: hidden;"/>
+            <Field id="major.id" name="major.id" type="text" class="form-control" style="visibility: hidden;"/>
         </Form>
     </template>
     <template v-if="user?.loading">
