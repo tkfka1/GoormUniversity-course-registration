@@ -21,10 +21,6 @@ function majorInDict(id,name){
     dictMajor[id] = name;
 }
 
-function test(text){
-    console.log(text);
-}
-
 
 console.log("listuser");
 

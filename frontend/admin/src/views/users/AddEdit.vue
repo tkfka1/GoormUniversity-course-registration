@@ -4,13 +4,24 @@ import * as Yup from 'yup';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import { useUsersStore, useAlertStore } from '@/stores';
+import { useUsersStore, useAlertStore, useMajorStore} from '@/stores';
 import { router } from '@/router';
 
 const usersStore = useUsersStore();
 const alertStore = useAlertStore();
+const majorStore = useMajorStore();
 const route = useRoute();
 const id = route.params.id;
+
+const { major } = storeToRefs(majorStore);
+
+majorStore.getAll();
+
+var dictMajor = {}
+
+function majorInDict(id,name){
+    dictMajor[id] = name;
+}
 
 let title = '학생 추가';
 let user = null;
@@ -29,8 +40,7 @@ const schema = Yup.object().shape({
         .required('이름을 입력하세요'),
     email: Yup.string()
         .required('이메일을 입력하세요'),
-    majorId: Yup.string()
-        .required('전공을 입력하세요'),
+    majorId: Yup.string(),
     credit: Yup.string()
         .required('수강가능학점을 입력하세요'),
     password: Yup.string()
@@ -41,6 +51,14 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values) {
+    var select = document.getElementById("majorSelect");
+    if (select.value){
+        values.majorId = select.value
+    }
+    else{
+        values.majorId = document.getElementById("majorId").value;
+    }
+
     try {
         let message;
         if (user) {
@@ -65,37 +83,46 @@ async function onSubmit(values) {
     }
 }
 
-var dictMajor = {}
+// 안됨 고장 vue에서는 안됨
+// function initCombobox(){
+//     var select = document.getElementById("majorId").value;
+//     for (var i = 0; i < document.getElementById('majorSelect').length; i++) {
+//         if (document.getElementById('majorSelect').options[i].value == select) {
+//             document.getElementById('majorSelect').options[i].selected = true;
+//             break;
+//         }
+//     }
+// }
 
-function majorInDict(id,name){
-    dictMajor[id] = name;
-}
-
-function makeOption(){
-    var select = document.getElementById("test");
-    for (const property in dictMajor){
-        console.log(`${property}: ${dictMajor[property]}`);
-        var option = document.createElement("option");
-        option.value = property;
-        option.text = dictMajor[property];
-        select.appendChild(option);
-    }
-}
 
 </script>
 
+
+<script>
+export default {
+  data() {
+    return {
+      majorSelected: "",
+    };
+  },
+  mounted() {
+    this.myFunction();
+  },
+  methods: {
+    myFunction() {
+
+    }
+  }
+};
+</script>
+
+
 <template>
 <tr v-for="maj in major" :key="maj.id">
-    {{ majorInDict(maj.id,maj.name) }}
+{{ majorInDict(maj.id,maj.name) }}
 </tr>
 
-<div>
-    <label for="field-select">Select Field:</label>
-    <select id="test">
-    </select>
-  </div>
-  
-{{ makeOption() }}
+<button @click="makeli()">test</button>
 
     <h1>{{title}}</h1>
     <template v-if="!(user?.loading || user?.error)">
@@ -124,9 +151,17 @@ function makeOption(){
                 <div class="form-group col">
                     <label>
                         전공
-                    </label>
-                    <Field name="majorId" type="number" class="form-control" :class="{ 'is-invalid': errors.majorId }" />
-                    <div class="invalid-feedback">{{ errors.majorId }}</div>
+                        <em v-if="user">(비우면 동일한 전공으로 유지)</em>
+                        
+                    </label><tr></tr>
+                    <select id="majorSelect" v-model="majorSelected">
+                    <option
+                        v-for="item in major"
+                        :key="item.name"
+                        :value="item.id" selected>
+                        {{ item.name }}
+                    </option>
+                    </select>
                 </div>
             </div>
             <div class="form-row">
@@ -150,6 +185,7 @@ function makeOption(){
                 </button>
                 <router-link to="/users" class="btn btn-link">취소</router-link>
             </div>
+            <Field id="majorId" name="majorId" type="text" class="form-control" style="visibility: hidden;"/>
         </Form>
     </template>
     <template v-if="user?.loading">
@@ -163,3 +199,4 @@ function makeOption(){
         </div>
     </template>
 </template>
+

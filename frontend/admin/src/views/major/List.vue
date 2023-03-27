@@ -7,6 +7,7 @@ const majorStore = useMajorStore();
 const { major } = storeToRefs(majorStore);
 
 majorStore.getAll();
+
 console.log("listmajor")
 
 </script>
