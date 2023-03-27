@@ -64,9 +64,39 @@ async function onSubmit(values) {
         alertStore.error(error);
     }
 }
+
+var dictMajor = {}
+
+function majorInDict(id,name){
+    dictMajor[id] = name;
+}
+
+function makeOption(){
+    var select = document.getElementById("test");
+    for (const property in dictMajor){
+        console.log(`${property}: ${dictMajor[property]}`);
+        var option = document.createElement("option");
+        option.value = property;
+        option.text = dictMajor[property];
+        select.appendChild(option);
+    }
+}
+
 </script>
 
 <template>
+<tr v-for="maj in major" :key="maj.id">
+    {{ majorInDict(maj.id,maj.name) }}
+</tr>
+
+<div>
+    <label for="field-select">Select Field:</label>
+    <select id="test">
+    </select>
+  </div>
+  
+{{ makeOption() }}
+
     <h1>{{title}}</h1>
     <template v-if="!(user?.loading || user?.error)">
         <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user" v-slot="{ errors, isSubmitting }">

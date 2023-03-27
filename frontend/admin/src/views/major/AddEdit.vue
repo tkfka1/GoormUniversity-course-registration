@@ -34,10 +34,10 @@ async function onSubmit(values) {
         if (user) {
             await majorStore.update(user.value.id, values)
             console.log(values)
-            message = '학생 정보 업데이트 완료';
+            message = '전공 정보 업데이트 완료';
         } else {
             await majorStore.register(values);
-            message = '학생 추가 완료';
+            message = '전공 추가 완료';
         }
         await router.push('/major');
         alertStore.success(message);

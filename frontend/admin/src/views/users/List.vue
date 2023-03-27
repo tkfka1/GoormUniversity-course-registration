@@ -2,16 +2,46 @@
 import { storeToRefs } from 'pinia';
 
 import { useUsersStore } from '@/stores';
+import { useMajorStore } from '@/stores';
+
 
 const usersStore = useUsersStore();
 const { users } = storeToRefs(usersStore);
 
 usersStore.getAll();
-console.log("listuser")
+
+const majorStore = useMajorStore();
+const { major } = storeToRefs(majorStore);
+
+majorStore.getAll();
+
+var dictMajor = {}
+
+function majorInDict(id,name){
+    dictMajor[id] = name;
+}
+
+function test(text){
+    console.log(text);
+}
+
+
+console.log("listuser");
+
+// for (const property in major){
+//     console.log(`${property}: ${object[property]}`);
+// }
+
+
 
 </script>
 
 <template>
+<tr v-for="maj in major" :key="maj.id">
+    {{ majorInDict(maj.id,maj.name) }}
+</tr>
+
+
     <h1>학생 목록</h1>
     <router-link to="/users/add" class="btn btn-sm btn-success mb-2">학생 추가</router-link>
     <table class="table table-striped">
@@ -30,7 +60,7 @@ console.log("listuser")
                 <tr v-for="user in users" :key="user.id">
                     <td>{{ user.studentId }}</td>
                     <td>{{ user.name }}</td>
-                    <td>{{ user.majorId }}</td>
+                    <td>{{ dictMajor[user.majorId] }}</td>
                     <td>{{ user.credit }}</td>
                     <td>{{ user.email }}</td>
                     <td style="white-space: nowrap">
