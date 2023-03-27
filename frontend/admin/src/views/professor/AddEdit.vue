@@ -4,33 +4,38 @@ import * as Yup from 'yup';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import { useProfessorStore, useAlertStore } from '@/stores';
+import { useProfessorStore, useAlertStore, useMajorStore } from '@/stores';
 import { router } from '@/router';
 
 const professorStore = useProfessorStore();
 const alertStore = useAlertStore();
+const majorStore = useMajorStore();
+
+const { major } = storeToRefs(majorStore);
+majorStore.getAll();
+
 const route = useRoute();
 const id = route.params.id;
 
 let title = '교수 추가';
 let user = null;
+
 if (id) {
     // edit mode
     title = '정보 수정';
     ({ user } = storeToRefs(professorStore));
     professorStore.getById(id);
-    
+ 
     
 }
 
 const schema = Yup.object().shape({
     name: Yup.string()
         .required('교수를 입력하세요'),
-    majorId: Yup.string()
-        .required('전공을 입력하세요')
 });
 
 async function onSubmit(values) {
+    values.major.id = String(document.getElementById("major.id").value);
     try {
         let message;
         if (user) {
@@ -49,6 +54,26 @@ async function onSubmit(values) {
 }
 </script>
 
+<script>
+export default {
+  data() {
+    return {
+      majorSelected: "",
+    };
+  },
+  mounted() {
+    this.myFunction();
+  },
+  methods: {
+    myFunction() {
+
+    }
+  }
+};
+</script>
+
+
+
 <template>
     <h1>{{title}}</h1>
     <template v-if="!(user?.loading || user?.error)">
@@ -61,8 +86,16 @@ async function onSubmit(values) {
                 </div>
                 <div class="form-group col">
                     <label>전공명</label>
-                    <Field name="majorId" type="text" class="form-control" :class="{ 'is-invalid': errors.majorId }" />
-                    <div class="invalid-feedback">{{ errors.majorId }}</div>
+                    <br>
+                    <select id="major.id" v-model="majorSelected">
+                        <option v-if="user" value="" disabled hidden> {{ user.major.name }} </option>
+                    <option
+                        v-for="item in major"
+                        :key="item.name"
+                        :value="item.id">
+                        {{ item.name }}
+                    </option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -72,6 +105,7 @@ async function onSubmit(values) {
                 </button>
                 <router-link to="/professor" class="btn btn-link">취소</router-link>
             </div>
+            <Field id="major.id" name="major.id" type="text" class="form-control" style="visibility: hidden;"/>
         </Form>
     </template>
     <template v-if="user?.loading">

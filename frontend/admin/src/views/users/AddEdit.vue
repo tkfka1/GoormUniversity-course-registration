@@ -122,7 +122,6 @@ export default {
 {{ majorInDict(maj.id,maj.name) }}
 </tr>
 
-<button @click="makeli()">test</button>
 
     <h1>{{title}}</h1>
     <template v-if="!(user?.loading || user?.error)">

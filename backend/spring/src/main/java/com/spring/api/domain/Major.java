@@ -1,5 +1,6 @@
 package com.spring.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,20 +41,10 @@ public class Major {
     }
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "major")
-    private List<test> sessions1 = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "major")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "major")
+    @JsonIgnoreProperties({"major"})
     private List<Professor> sessions2 = new ArrayList<>();
 
-    public test addSession() {
-        test session = test.builder()
-                .major(this)
-                .build();
-        sessions1.add(session);
-
-        return session;
-    }
 
     public Professor addProfessor() {
         Professor professor = Professor.builder()

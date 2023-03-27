@@ -1,5 +1,6 @@
 package com.spring.api.request;
 
+import com.spring.api.domain.Major;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,8 +8,7 @@ import lombok.Data;
 @Builder
 public class ProfessorSignup {
     private String name;
-    private Long majorId;
-
+    private Major major;
 
 }
 

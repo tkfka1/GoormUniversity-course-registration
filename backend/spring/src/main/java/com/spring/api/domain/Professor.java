@@ -18,7 +18,7 @@ public class Professor {
     private Long id;
     @Column(name = "professor_name")
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Major major;
 
     @Builder
