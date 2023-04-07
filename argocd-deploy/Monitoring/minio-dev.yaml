@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: minio
+  name: minio
+  namespace: monitoring # Change this value to match the namespace metadata.name
+spec:
+  volumes:
+  - name: efs-volume
+    persistentVolumeClaim:
+      claimName: efs-pvc-monitoring
+  containers:
+  - name: minio
+    image: quay.io/minio/minio:latest
+    command:
+    - /bin/bash
+    - -c
+    args:
+      - minio server /data --console-address :9091
+    volumeMounts:
+    - mountPath: /data
+      name: efs-volume
+

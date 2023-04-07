@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: front-ing
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:506294220241:certificate/569707b3-25d9-4c5b-8556-2db67c7b5013 , arn:aws:acm:ap-northeast-2:506294220241:certificate/650d118b-1704-45b3-ac85-c1ee1f22b2fe
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/tls-redirect: '443'
+spec:
+  rules:
+  - host: "k8s-finalproject.com" 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: front-svc-user
+            port:
+              number: 80
+  - host: "k8s-finalproject-admin.com"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: front-svc-admin
+            port:
+              number: 80

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-deploy
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  minReadySeconds: 20
+  selector:
+    matchLabels:
+      tier: backend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        tier: backend
+    spec:
+      volumes:
+      - name: efs-volume
+        persistentVolumeClaim:
+          claimName: efs-pvc
+      containers:
+      - name: back-app
+        image: suhwan11/backend:9
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - name: efs-volume
+          mountPath: /data
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200M
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                - backend
+            topologyKey: "kubernetes.io/hostname"

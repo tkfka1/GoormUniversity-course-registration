@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deploy-user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: frontend-user
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  minReadySeconds: 20
+  template:
+    metadata:
+      name: front-deploy-user
+      labels:
+        tier: frontend-user
+    spec:
+      containers:
+      - name: front-app-user
+        image: suhwan11/frontend-user:14
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                - frontend-user
+            topologyKey: "kubernetes.io/hostname"
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                - backend
+            topologyKey: "kubernetes.io/hostname"
+

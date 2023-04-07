@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: ml
+  template:
+    metadata:
+      name: ml-deploy
+      labels:
+        tier: ml
+    spec:
+      containers:
+      - name: ml-deploy
+        image: suhwan11/backend-ml:flaskv1
+        ports:
+        - containerPort: 5000
+
