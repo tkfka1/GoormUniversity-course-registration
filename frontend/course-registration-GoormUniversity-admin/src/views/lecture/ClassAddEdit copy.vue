@@ -1,0 +1,184 @@
+<script setup>
+import { Form, Field } from 'vee-validate';
+import * as Yup from 'yup';
+import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { fetchWrapper } from '@/helpers';
+import { ref } from 'vue';
+
+import { useLectureClassStore , useAlertStore , useProfessorStore } from '@/stores';
+import { router } from '@/router';
+
+const lectureClassStore = useLectureClassStore();
+const professorStore = useProfessorStore();
+const alertStore = useAlertStore();
+
+const { professor } = storeToRefs(professorStore);
+professorStore.getAll();
+
+const route = useRoute();
+// 분반 id 가져오기
+const id = route.params.id;
+// 강의 id 가져오기
+const lid = route.params.lid;
+
+const lactureName = ref("이름");
+const lactureMajor = ref("학번");
+const lactureCredit = ref("학점");
+const lactureMajorId = ref(2);
+
+fetchWrapper.get(`/api/lecture/auth/${lid}`).then((res) => {
+    lactureName.value = res.name;
+    lactureMajor.value = res.major.name;
+    lactureCredit.value = res.credit;
+    lactureMajorId.value = res.major.id;
+
+});
+
+function findLactureMajorId(){
+    return lactureMajorId.value;
+}
+
+let title = '강의 분반 추가';
+let user = null;
+
+console.log(lid)
+if (id) {
+    // edit mode
+    title = '강의 분반 정보 수정';
+    ({ user } = storeToRefs(lectureClassStore));
+    lectureClassStore.getById(id);
+
+}
+
+
+const schema = Yup.object().shape({
+    classMin: Yup.string()
+        .required('최소인원을 입력하세요'),
+    classMax: Yup.string()
+        .required('최대인원을 입력하세요'),
+    week: Yup.string()
+        .required('요일을 입력하세요'),
+    period: Yup.string()
+        .required('교시를 입력하세요'),
+});
+
+async function onSubmit(values) {
+    // console.log(values)
+    // values.lecture.id = lid;
+    // if (document.getElementById("professor.id").value){
+    //     values.professor.id = String(document.getElementById("professor.id").value);
+    // }
+    try {
+        let message;
+        if (user) {
+            await lectureClassStore.update(user.value.id, values)
+            message = '강의 정보 업데이트 완료';
+        } else {
+            await lectureClassStore.register(values);
+            message = '강의 추가 완료';
+        }
+        await router.push(`/lecture/class/${lid}`);
+        alertStore.success(message);
+    } catch (error) {
+        alertStore.error(error);
+    }
+}
+</script>
+
+<script>
+export default {
+    data() {
+        return {
+            professorSelected: "",
+        };
+    },
+    mounted() {
+        this.myFunction();
+    },
+    methods: {
+        myFunction() {
+        }
+    },
+};
+</script>
+<template>
+    <h1>{{title}}</h1>
+    <br>
+    <h3>전공 : {{ lactureMajor }}</h3>
+    <h3>강의 : {{ lactureName }}</h3>
+    <h3>학점 : {{ lactureCredit }} 학점</h3>
+    <tr v-for="item in professor.filter((u) => u.major.id === 3)" :key="item.id" >
+        <td>{{ item.name }}</td>
+    </tr>
+    <template v-if="!(user?.loading || user?.error)">
+        <Form @submit="onSubmit" :validation-schema="schema" :initial-values="user" v-slot="{ errors, isSubmitting }">
+            <div class="form-row">
+                <div class="form-group col">
+                    <!-- <label>담당교수</label>
+                    <select id="s" v-model="professorSelected" class="form-control">
+                        <option v-if="user" value="" disabled hidden> {{ user.professor.name }} </option>
+                    <option
+                        v-for="item in professor"
+                        :key="item.name"
+                        :value="item.id">
+                        {{ item.name }}
+                    </option>
+                    </select> -->
+                </div>
+                <div class="form-group col">
+                    <label>요일</label>
+                    <Field name="week" type="text" class="form-control" :class="{ 'is-invalid': errors.week }" />
+                    <div class="invalid-feedback">{{ errors.week }}</div>
+                </div>
+                <div class="form-group col">
+                    <label>교시</label>
+                    <Field name="period" type="text" class="form-control" :class="{ 'is-invalid': errors.period }" />
+                    <div class="invalid-feedback">{{ errors.period }}</div>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>최소인원</label>
+                    <Field name="classMin" type="number" class="form-control" :class="{ 'is-invalid': errors.classMin }" />
+                    <div class="invalid-feedback">{{ errors.classMin }}</div>
+                </div>
+                <div class="form-group col">
+                    <label>최대인원</label>
+                    <Field name="classMax" type="number" class="form-control" :class="{ 'is-invalid': errors.classMax }" />
+                    <div class="invalid-feedback">{{ errors.classMax }}</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>설명</label>
+                    <Field v-slot="{ field }" name="explanation" :class="{ 'is-invalid': errors.explanation }" >
+                        <textarea v-bind="field" class="form-control"  rows="10" />
+                    </Field>
+                    <div class="invalid-feedback">{{ errors.explanation }}</div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" :disabled="isSubmitting">
+                    <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+                    저장
+                </button>
+                <router-link :to="`/lecture/class/${lid}`" class="btn btn-link">취소</router-link>
+            </div>
+            <Field name="lecture.id" type="text" class="form-control" style="visibility: hidden;"/>
+            <Field name="professor" type="text" class="form-control" />
+        </Form>
+    </template>
+    <template v-if="user?.loading">
+        <div class="text-center m-5">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+        </div>
+    </template>
+    <template v-if="user?.error">
+        <div class="text-center m-5">
+            <div class="text-danger">Error loading user: {{user.error}}</div>
+        </div>
+    </template>
+</template>

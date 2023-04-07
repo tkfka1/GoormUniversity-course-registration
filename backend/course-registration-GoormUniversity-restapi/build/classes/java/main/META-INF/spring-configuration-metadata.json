@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "admin",
+      "type": "com.spring.api.config.AppConfigAdmin",
+      "sourceType": "com.spring.api.config.AppConfigAdmin"
+    },
+    {
+      "name": "user",
+      "type": "com.spring.api.config.AppConfigUser",
+      "sourceType": "com.spring.api.config.AppConfigUser"
+    }
+  ],
+  "properties": [
+    {
+      "name": "admin.jwt-key",
+      "type": "java.lang.Byte[]",
+      "sourceType": "com.spring.api.config.AppConfigAdmin"
+    },
+    {
+      "name": "user.jwt-key",
+      "type": "java.lang.Byte[]",
+      "sourceType": "com.spring.api.config.AppConfigUser"
+    }
+  ],
+  "hints": []
+}
