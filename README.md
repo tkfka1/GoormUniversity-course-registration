@@ -35,23 +35,40 @@ Google Docs 를 통한 문서 작업
 
 1. Phase 0 (03.13 ~ 03.17 5일)
 자료 수집 및 기획 단계
+
 ● 자료 수집 및 인원 분배
+
 ● 각자 필요한 환경 및 기획 작성 (service, infra , cicd, monitor)
+
 ● service 기획에 맞게 infra 요구서 작성
+
 ● infra 요구서에 맞게 infra 기획서 작성
+
 ● 내용을 전부 모아서 프로젝트 착수 보고서 작성
+
 2. Phase 1 (03.20 ~ 03.28 8일)
+
 기본적인 테스트 서비스 구현 및 기본적인 인프라 구현으로 테스트 서비스를 가동 단계
 Phase 0 에서 진행한 기획에 맞게 기본적인 기능이 동작할 수 있는지에 대한 확인 작업
+
 ● infra 요구에 맞는 infrastructure 구성
+
 ● sevice test code 빌드 및 배포 (test frontend, test backent) 테스트
+
 ● infra 관련 network , authorization, storage 정리
+
 ● infra 관련 HA(High Availability) , security 구현
+
 3. Phase 2 (03.29 ~ 04.11 10일)
+
 기획에 따른 서비스 기능 개발 및 인프라 CI/CD , Monitoring 구현 및 보고서 작성 마무리 단계
+
 ● service 구현(backend api, frontend funtion)
+
 ● ci/cd pipeline 구현 (코드관련 jenkins, eks관련 argoCD)
+
 ● monitoring service 구현
+
 ● 작업 프로젝트 기술 문서, 발표PPT, 영상 작업
 
 ## 4. 프로젝트 구현 간단 설명
@@ -61,14 +78,23 @@ Phase 0 에서 진행한 기획에 맞게 기본적인 기능이 동작할 수 �
 **MySQL** 로 진행하였고 기획에 맞는 여러 테이블및 컬럼을 작성
 
 ● admin (교직원)
+
 ● user (학생)
+
 ● major (전공)
+
 ● professor (교수)
+
 ● lecture (강의)
+
 ● cart_lecture (장바구니)
+
 ● take_lecture (수강신청)
+
 ● lecture_class (강의분반)
+
 ● open_time (수강신청오픈시간)
+
 
 ### 4-2 Backend
 
@@ -144,15 +170,11 @@ Prometheus HA를 구현하기 위해 Thanos를 이용했다. Thanos sidecar를 �
 
 ## 발표 프레젠테이션
 
-[구름대학교 수강신청 프레젠테이션.pdf](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ae85188-323f-42f9-8642-b4bbdbbe2a41/%EA%B5%AC%EB%A6%84%EB%8C%80%ED%95%99%EA%B5%90_%EC%88%98%EA%B0%95%EC%8B%A0%EC%B2%AD_%ED%94%84%EB%A0%88%EC%A0%A0%ED%85%8C%EC%9D%B4%EC%85%98.pdf)
-
-[구름대학교 수강신청 프레젠테이션.pdf](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8335411-643e-41b5-96fd-2b0c246a5004/%EA%B5%AC%EB%A6%84%EB%8C%80%ED%95%99%EA%B5%90_%EC%88%98%EA%B0%95%EC%8B%A0%EC%B2%AD_%ED%94%84%EB%A0%88%EC%A0%A0%ED%85%8C%EC%9D%B4%EC%85%98.pdf)
+[구름대학교 수강신청 프레젠테이션.pdf](https://github.com/tkfka1/GoormUniversity-course-registration/files/11269406/default.pdf)
 
 ## 기술문서
 
-[구름대학 수강신청 프로젝트 기술문서.pdf](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0d8f0092-09cb-471a-a5a4-70ce5e0df1d3/%EA%B5%AC%EB%A6%84%EB%8C%80%ED%95%99_%EC%88%98%EA%B0%95%EC%8B%A0%EC%B2%AD_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EA%B8%B0%EC%88%A0%EB%AC%B8%EC%84%9C.pdf)
-
-[구름대학 수강신청 프로젝트 기술문서.pdf](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/226457d4-e738-4c46-a2f5-140080774910/%EA%B5%AC%EB%A6%84%EB%8C%80%ED%95%99_%EC%88%98%EA%B0%95%EC%8B%A0%EC%B2%AD_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EA%B8%B0%EC%88%A0%EB%AC%B8%EC%84%9C.pdf)
+[구름대학 수강신청 프로젝트 기술문서.pdf](https://github.com/tkfka1/GoormUniversity-course-registration/files/11269403/default.pdf)
 
 ## 시연영상
 
@@ -160,16 +182,16 @@ Prometheus HA를 구현하기 위해 Thanos를 이용했다. Thanos sidecar를 �
 
 [https://youtu.be/8zpsD8fZ_TY](https://youtu.be/8zpsD8fZ_TY)
 
-1. 교직원 서비스
+교직원 서비스
 
 [https://youtu.be/6bbDbWCxg5E](https://youtu.be/6bbDbWCxg5E)
 
-1. 학생서비스
+학생서비스
 
 [https://youtu.be/6-AsQjCUzac](https://youtu.be/6-AsQjCUzac)
 
-1. 모니터링 Prometheus & Grafana
+모니터링 Prometheus & Grafana
 
 [https://youtu.be/Qh6-R9yKtwg](https://youtu.be/Qh6-R9yKtwg)
 
-1. 모니터링 CloudWatch
+모니터링 CloudWatch
