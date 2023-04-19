@@ -1,6 +1,3 @@
-# GoormUniversity course registration
- 구름대학 수강신청
-
 # 구름대학 수강신청
 
 ## 1. 프로젝트 개요
