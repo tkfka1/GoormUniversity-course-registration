@@ -102,7 +102,8 @@ Phase 0 에서 진행한 기획에 맞게 기본적인 기능이 동작할 수 �
 
 [https://github.com/tkfka1/course-registration-GoormUniversity-restapi](https://github.com/tkfka1/course-registration-GoormUniversity-restapi)
 
-또한 **MSA (MicroService Architecture)**를 구현해보고자 하여 간단한 **AI 서비스**를 제공하는 백엔드 구현
+또한 **MSA (MicroService Architecture)**를 구현해보고자 하여 간단한 **AI 서비스**를 제공하는 백엔드
+
 **pytorch** 를 사용해 연산을 하고 **Flask** **프레임워크**를 사용해 **REST API** 구현 
 
 [https://github.com/tkfka1/course-registration-GoormUniversity-animalapi](https://github.com/tkfka1/course-registration-GoormUniversity-animalapi)
@@ -110,6 +111,7 @@ Phase 0 에서 진행한 기획에 맞게 기본적인 기능이 동작할 수 �
 ### 4-3 Frontend
 
 앞서 제작한 **Backend**의 **API**와 통신을하여 서비스의 기능을 **Vue.js 프레임워크**를 사용하여
+
 사용자에게 실제로 보여주는 역할Admin과 User가 구분되어 개발을 진행
 
 [https://github.com/tkfka1/course-registration-GoormUniversity-admin](https://github.com/tkfka1/course-registration-GoormUniversity-admin)
